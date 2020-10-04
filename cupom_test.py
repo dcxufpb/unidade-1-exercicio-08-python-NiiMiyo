@@ -251,10 +251,10 @@ IE: 123456789"""
 
 
 def test_valida_observacao():
-    assert cupom.dados_loja_objeto(LOJA_OBSERVACAO_NULA)
-    == TEXTO_ESPERADO_SEM_OBSERVACAO
-    assert cupom.dados_loja_objeto(LOJA_OBSERVACAO_VAZIA)
-    == TEXTO_ESPERADO_SEM_OBSERVACAO
+    assert cupom.dados_loja_objeto(
+        LOJA_OBSERVACAO_NULA) == TEXTO_ESPERADO_SEM_OBSERVACAO
+    assert cupom.dados_loja_objeto(
+        LOJA_OBSERVACAO_VAZIA) == TEXTO_ESPERADO_SEM_OBSERVACAO
 
 
 LOJA_CNPJ_NULO = cupom.Loja(NOME_LOJA, LOGRADOURO, NUMERO, COMPLEMENTO,
@@ -302,15 +302,15 @@ IE: 123456789'''
 
 
 def test_valida_numero_e_complemento():
-    assert cupom.dados_loja_objeto(LOJA_SEM_NUMERO_SEM_COMPLEMENTO)
-    == TEXTO_ESPERADO_SEM_NUMERO_SEM_COMPLEMENTO
+    assert cupom.dados_loja_objeto(
+        LOJA_SEM_NUMERO_SEM_COMPLEMENTO) == TEXTO_ESPERADO_SEM_NUMERO_SEM_COMPLEMENTO
 
 
-LOJA_SEM_NUMERO_SEM_COMPLEMENTO_SEM_BAIRRO = Loja(NOME_LOJA, LOGRADOURO, None,
-                                                  None, None, MUNICIPIO,
-                                                  ESTADO, CEP, TELEFONE,
-                                                  OBSERVACAO, CNPJ,
-                                                  INSCRICAO_ESTADUAL)
+LOJA_SEM_NUMERO_SEM_COMPLEMENTO_SEM_BAIRRO = cupom.Loja(NOME_LOJA, LOGRADOURO, None,
+                                                        None, None, MUNICIPIO,
+                                                        ESTADO, CEP, TELEFONE,
+                                                        OBSERVACAO, CNPJ,
+                                                        INSCRICAO_ESTADUAL)
 
 TEXTO_ESPERADO_SEM_NUMERO_SEM_COMPLEMENTO_SEM_BAIRRO = '''Loja 1
 Log 1, s/n
@@ -322,30 +322,35 @@ IE: 123456789'''
 
 
 def test_valida_numero_complemento_e_bairro():
-    assert cupom.dados_loja_objeto(LOJA_SEM_NUMERO_SEM_COMPLEMENTO_SEM_BAIRRO)
-    == TEXTO_ESPERADO_SEM_NUMERO_SEM_COMPLEMENTO_SEM_BAIRRO
+    assert cupom.dados_loja_objeto(
+        LOJA_SEM_NUMERO_SEM_COMPLEMENTO_SEM_BAIRRO) == TEXTO_ESPERADO_SEM_NUMERO_SEM_COMPLEMENTO_SEM_BAIRRO
 
 
 def test_exercicio2_customizado():
 
     # Defina seus próprios valores para as variáveis a seguir
-    nome_loja = ""
-    logradouro = ""
-    numero = 0
-    complemento = ""
-    bairro = ""
-    municipio = ""
-    estado = ""
-    cep = ""
-    telefone = ""
-    observacao = ""
-    cnpj = ""
-    inscricao_estadual = ""
+    loja_customizada = cupom.Loja(
+        "Top 10 nomes de lojas",
+        "Rua Tchurusbango Tchurusmago",
+        13,
+        "Do lado da casa vizinha",
+        "Bairro do Limoeiro",
+        "São Paulo",
+        "SP",
+        "08090-284",
+        "(11) 4002-8922",
+        "Entre o Campinho e a Lua de Baixo",
+        "43.745.249/0001-39",
+        "564.213.199.866"
+    )
 
-    lojaCustomizada = cupom.Loja(nome_loja, logradouro, numero, complemento,
-                                 bairro, municipio, estado, cep, telefone,
-                                 observacao, cnpj, inscricao_estadual)
+    expected = "Top 10 nomes de lojas\n"
+    expected += "Rua Tchurusbango Tchurusmago, 13 Do lado da casa vizinha\n"
+    expected += "Bairro do Limoeiro - São Paulo - SP\n"
+    expected += "CEP:08090-284 Tel (11) 4002-8922\n"
+    expected += "Entre o Campinho e a Lua de Baixo\n"
+    expected += "CNPJ: 43.745.249/0001-39\n"
+    expected += "IE: 564.213.199.866"
 
     # E atualize o texto esperado abaixo
-    assert (cupom.dados_loja_objeto(lojaCustomizada) == """
-""")
+    assert (cupom.dados_loja_objeto(loja_customizada) == expected)
